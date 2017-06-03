@@ -26,12 +26,7 @@ type Move struct {
 
 // Rule is a single direction in the form of a dictionary
 type Rule struct {
-	C map[Color]Move
-}
-
-// Rules is the silce of rules the turmite must follow
-type Rules struct {
-	R []Rule
+	R map[Color]Move
 }
 
 // Turmite is an individual that exists inside a grid
@@ -40,5 +35,5 @@ type Turmite struct {
 	D Direction
 	X int
 	Y int
-	R Rules
+	R Rule
 }

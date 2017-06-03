@@ -8,20 +8,23 @@ type Block struct {
 }
 
 // Grid is the basic structure for the turmites
-// x and y is measured in blocks
+// x and y are measured in blocks
+// S is the state of the grid
 type Grid struct {
 	B Block
 	X int
 	Y int
+	S []Color
 }
 
-// CreateGrid ...
+// CreateGrid creates an empty grid
 func CreateGrid(blockSize, x, y int) Grid {
 	block := Block{x: blockSize, y: blockSize}
 	grid := Grid{
 		B: block,
 		X: x,
 		Y: y,
+		S: make([]Color, x*y),
 	}
 	return grid
 }
