@@ -44,8 +44,8 @@ type Turmite struct {
 
 // CreateRules returns a new Rule structure
 func CreateRules() *Rule {
-	m := new(Rule)
-	return m
+	m := Rule(make(map[colorful.Color]Move))
+	return &m
 }
 
 // AddRule takes a color as a key and creates a move out of a second color and a turn and is added to the map
@@ -57,8 +57,10 @@ func (r Rule) AddRule(c1 colorful.Color, c2 colorful.Color, t Turn) {
 	r[c1] = m
 }
 
-func (t Turmite) findMove(c colorful.Color) Move {
-	return t.Rule[c]
+// findMove returns the move associated with a color if it exists
+func (t Turmite) findMove(c colorful.Color) (Move, bool) {
+	m, ok := t.Rule[c]
+	return m, ok
 }
 
 // Move takes a turmite, a turn, and a mound and returns the new direction and the update position of the turmite
