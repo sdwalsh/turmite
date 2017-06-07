@@ -18,7 +18,7 @@ type Grid struct {
 }
 
 // CreateGrid creates an empty grid
-func CreateGrid(blockSize, x, y int) Grid {
+func createGrid(blockSize, x, y int) Grid {
 	block := Block{x: blockSize, y: blockSize}
 	grid := Grid{
 		B: block,
@@ -27,6 +27,10 @@ func CreateGrid(blockSize, x, y int) Grid {
 		S: make([]Color, x*y),
 	}
 	return grid
+}
+
+func (g *Grid) updateColor(location int, c Color) {
+	g.S[location] = c
 }
 
 func grid() {
