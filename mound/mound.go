@@ -26,12 +26,8 @@ func (m Mound) currentColor() Color {
 	return m.Grid.S[l]
 }
 
-func findMove(c Color, t Turmite) Move {
-	return t.Rule[c]
-}
-
 func (m *Mound) next() {
-	move := findMove(m.currentColor(), m.Turmite)
+	move := m.Turmite.findMove(m.currentColor())
 	m.Grid.updateColor(m.Turmite.Location, move.C)
 	d, l := m.Turmite.move(move.T, m.Grid)
 	m.Turmite.Location = l

@@ -45,6 +45,10 @@ type Turmite struct {
 	Rule      Rule
 }
 
+func (t Turmite) findMove(c Color) Move {
+	return t.Rule[c]
+}
+
 // Move takes a turmite, a turn, and a mound and returns the new direction and the update position of the turmite
 func (t Turmite) move(turn Turn, grid Grid) (Direction, int) {
 	direction := t.Direction
