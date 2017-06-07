@@ -25,17 +25,14 @@ const (
 	N
 )
 
-// Color is the array of colors
-type Color colorful.Color
-
 // Move defines the color to replace under the turmite and the direction the turmite should move
 type Move struct {
-	C Color
+	C colorful.Color
 	T Turn
 }
 
 // Rule is a single direction in the form of a dictionary
-type Rule map[Color]Move
+type Rule map[colorful.Color]Move
 
 // Turmite is an individual that exists inside a grid
 // X and Y are positions of size defined in a the Block of a Grid
@@ -45,7 +42,22 @@ type Turmite struct {
 	Rule      Rule
 }
 
-func (t Turmite) findMove(c Color) Move {
+// CreateRules returns a new Rule structure
+func CreateRules() *Rule {
+	m := new(Rule)
+	return m
+}
+
+// AddRule takes a color as a key and creates a move out of a second color and a turn and is added to the map
+func (r Rule) AddRule(c1 colorful.Color, c2 colorful.Color, t Turn) {
+	m := Move{
+		C: c2,
+		T: t,
+	}
+	r[c1] = m
+}
+
+func (t Turmite) findMove(c colorful.Color) Move {
 	return t.Rule[c]
 }
 

@@ -1,5 +1,12 @@
 package mound
 
+import (
+	"image"
+	"image/draw"
+
+	colorful "github.com/lucasb-eyer/go-colorful"
+)
+
 // Block is the unit of measurement in a grid
 // x and y are measured in pixels
 type Block struct {
@@ -14,7 +21,7 @@ type Grid struct {
 	B Block
 	X int
 	Y int
-	S []Color
+	S []colorful.Color
 }
 
 // CreateGrid creates an empty grid
@@ -24,15 +31,26 @@ func createGrid(blockSize, x, y int) Grid {
 		B: block,
 		X: x,
 		Y: y,
-		S: make([]Color, x*y),
+		S: make([]colorful.Color, x*y),
 	}
 	return grid
 }
 
-func (g *Grid) updateColor(location int, c Color) {
+// updateColor mutates the grid to update the color at the provided location
+func (g *Grid) updateColor(location int, c colorful.Color) {
 	g.S[location] = c
 }
 
-func grid() {
+// GridToImage transforms a grid into an image.Image to encoded later
+func (g *Grid) GridToImage() image.Image {
+	img := image.NewRGBA(image.Rect(0, 0, g.X, g.Y))
+	location := 0
 
+	for x := 0; x < g.X; x++ {
+		for y := 0; y < g.Y; y++ {
+			draw.Draw(img, image.Rect(x, y, x+1, y+1), &image.Uniform{g.S[location]}, image.ZP, draw.Src)
+			location++
+		}
+	}
+	return img
 }
