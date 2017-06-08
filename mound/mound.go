@@ -32,6 +32,7 @@ func CreateMound(blockSize int, x int, y int, d Direction, l int, r Rule, def Mo
 // currentColor returns the color under the turmite
 func (m Mound) currentColor() colorful.Color {
 	l := m.Turmite.Location
+	fmt.Printf("location: #%v \n", l)
 	return m.Grid.S[l]
 }
 

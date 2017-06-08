@@ -82,28 +82,28 @@ func (t Turmite) move(turn Turn, grid Grid) (Direction, int) {
 	// Update position - wrap if needed
 	switch direction {
 	case North:
-		if (position - grid.Y) > 0 {
+		if (position - grid.Y) >= 0 {
 			position = position - grid.Y
 		} else {
-			position = (grid.X * (grid.Y - 1)) + position
+			position = ((grid.X - 1) * grid.Y) + position
 		}
 	case East:
 		if position+1 < max {
 			position = position + 1
 		} else {
-			position = (grid.X * (grid.Y - 1)) + 1
+			position = ((grid.X - 1) * grid.Y) + 1
 		}
 	case South:
 		if (position + grid.Y) < max {
 			position = position + grid.Y
 		} else {
-			position = position - (grid.X * (grid.Y - 1))
+			position = position + grid.Y - ((grid.X - 1) * grid.Y)
 		}
 	case West:
 		if position != 0 {
 			position = position - 1
 		} else {
-			position = grid.Y
+			position = (grid.X - 1) * grid.Y
 		}
 	}
 	return direction, position

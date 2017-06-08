@@ -23,13 +23,13 @@ func main() {
 		T: 1,
 	}
 
-	m := mound.CreateMound(5, 50, 200, mound.North, 124, *r, def)
+	m := mound.CreateMound(5, 200, 200, mound.North, 124, *r, def)
 	e := png.Encoder{
 		CompressionLevel: -3,
 	}
 	num := 0
 
-	for x := 0; x < 100000; x++ {
+	for x := 0; x < 10000000; x++ {
 		m.Next()
 	}
 	fmt.Println("begin rendering")
