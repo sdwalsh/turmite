@@ -74,7 +74,6 @@ func (t Turmite) move(turn Turn, grid Grid) (Direction, int) {
 	case U:
 		direction = direction + 2
 	}
-
 	direction = direction % 4
 	max := grid.X * grid.Y
 	position := t.Location

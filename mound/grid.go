@@ -37,6 +37,12 @@ func createGrid(blockSize, x, y int) Grid {
 	return grid
 }
 
+// currentColor returns the color under the turmite
+func (g Grid) currentColor(t Turmite) colorful.Color {
+	l := t.Location
+	return g.S[l]
+}
+
 // updateColor mutates the grid to update the color at the provided location
 func (g *Grid) updateColor(location int, c colorful.Color) {
 	fmt.Printf("Pre-update: #%v \n", g.S[location])
