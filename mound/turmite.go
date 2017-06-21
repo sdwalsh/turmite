@@ -1,6 +1,9 @@
 package mound
 
-import colorful "github.com/lucasb-eyer/go-colorful"
+import (
+	colorful "github.com/lucasb-eyer/go-colorful"
+	log "github.com/sirupsen/logrus"
+)
 
 // Direction determines the next location of the turmite
 type Direction int
@@ -42,6 +45,16 @@ type Turmite struct {
 	Rule      Rule
 }
 
+// CreateTurmite returns a turmite structure
+func CreateTurmite(d Direction, l int, r Rule) *Turmite {
+	t := Turmite{
+		Direction: d,
+		Location:  l,
+		Rule:      r,
+	}
+	return &t
+}
+
 // CreateRules returns a new Rule structure
 func CreateRules() *Rule {
 	m := Rule(make(map[colorful.Color]Move))
@@ -60,11 +73,22 @@ func (r Rule) AddRule(c1 colorful.Color, c2 colorful.Color, t Turn) {
 // findMove returns the move associated with a color if it exists
 func (t Turmite) findMove(c colorful.Color) (Move, bool) {
 	m, ok := t.Rule[c]
+	log.WithFields(log.Fields{
+		"color":      c.Hex(),
+		"move color": m.C.Hex(),
+		"turn ":      m.T,
+		"ok":         ok,
+	}).Info("move associated with color and turmite")
 	return m, ok
 }
 
 // Move takes a turmite, a turn, and a mound and returns the new direction and the update position of the turmite
 func (t Turmite) move(turn Turn, grid Grid) (Direction, int) {
+	log.WithFields(log.Fields{
+		"turn":      turn,
+		"direction": t.Direction,
+		"location":  t.Location,
+	}).Info("turmite state before move")
 	direction := t.Direction
 	switch turn {
 	case R:
@@ -105,5 +129,12 @@ func (t Turmite) move(turn Turn, grid Grid) (Direction, int) {
 			position = (grid.X - 1) * grid.Y
 		}
 	}
+
+	log.WithFields(log.Fields{
+		"turn":      turn,
+		"direction": direction,
+		"location":  position,
+	}).Info("turmite state after move")
+
 	return direction, position
 }
