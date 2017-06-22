@@ -2,7 +2,7 @@
 
 Turmites is a small Go program that runs one more more [turmites](https://en.wikipedia.org/wiki/Turmite) through a mound.
 
-Turmite library located at github.com/sdwalsh/turmites/mounds
+Mound library located [here](mound)
 
 Every turmite is a 2d turing machine, one of the most famous turmites being [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant) (a four state turing machine).
 
