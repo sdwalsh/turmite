@@ -1,14 +1,8 @@
 package mound
 
 import (
-	"errors"
 	"image"
 	"image/draw"
-	"image/png"
-	"os"
-	"path/filepath"
-	"strconv"
-	"time"
 
 	colorful "github.com/lucasb-eyer/go-colorful"
 	log "github.com/sirupsen/logrus"
@@ -79,70 +73,4 @@ func (g *Grid) GridToImage(squareSize int) image.Image {
 		}
 	}
 	return img
-}
-
-// numberOfDigits calculates the number of digits in a given int using a lookup table
-// less expensive than the alternative of math.Log10 calls
-func numberOfDigits(x int) (int, error) {
-	switch {
-	case x < 10:
-		return 1, nil
-	case x < 100:
-		return 2, nil
-	case x < 1000:
-		return 3, nil
-	case x < 10000:
-		return 4, nil
-	case x < 100000:
-		return 5, nil
-	case x < 1000000:
-		return 6, nil
-	default:
-		return -1, errors.New("Integer size not supported")
-	}
-}
-
-func zeroString(zeros int) string {
-	var zeroString string
-	for x := 0; x < zeros; x++ {
-		zeroString = zeroString + "0"
-	}
-	return zeroString
-}
-
-// BatchImages creates a temporary folder and takes
-func (g *Grid) BatchImages(numberOfImages int, squareSize int) error {
-	// Create directory to store images in before encoding
-	directory := "batch" + strconv.FormatInt(time.Now().UTC().UnixNano(), 10)
-
-	totalDigits, err := numberOfDigits(numberOfImages)
-	if err != nil {
-		return err
-	}
-	err = os.Mkdir(directory, os.FileMode(int(0777)))
-	if err != nil {
-		return err
-	}
-	e := png.Encoder{
-		CompressionLevel: -3,
-	}
-
-	for x := 0; x < numberOfImages; x++ {
-		digits, err := numberOfDigits(x)
-		if err != nil {
-			return err
-		}
-		zeros := totalDigits - digits
-		filepath := filepath.Join(directory, zeroString(zeros)+"color.png")
-		file, err := os.Create(filepath)
-		if err != nil {
-			return err
-		}
-		img := g.GridToImage(squareSize)
-		err = e.Encode(file, img)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }
